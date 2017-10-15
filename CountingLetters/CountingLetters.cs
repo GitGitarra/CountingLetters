@@ -10,7 +10,7 @@ namespace CountingLetters
         static void Main(string[] args)
         {
 
-            string example = "Ala ma kota a kot ma mysz a mysz ma ser";
+            string example = "Ala ma kota a kot ma mysz";
 
             var p = new CountingLetters();
             var result = p.LetterCounter(example);
@@ -20,14 +20,19 @@ namespace CountingLetters
         public Dictionary<char, int> LetterCounter(string text)
         {
             Dictionary<char, int> counter = new Dictionary<char, int>();
-            char[] charList = text.Where(ch => !Char.IsWhiteSpace(ch)).ToArray<char>();
-            foreach (char ch in charList)
+            try
             {
-                if (!counter.ContainsKey(ch))
+                char[] charList = text.Where(ch => !Char.IsWhiteSpace(ch)).ToArray();
+                foreach (char ch in charList)
                 {
-                    counter.Add(ch, 1);
+                    if (!counter.ContainsKey(ch))
+                    {
+                        counter.Add(ch, 1);
+                    }
+                    counter[ch] += 1;
                 }
-                counter[ch] += 1;
+            } catch (ArgumentNullException) {
+                Console.WriteLine("String can't be empty!");
             }
             return counter;
         }
